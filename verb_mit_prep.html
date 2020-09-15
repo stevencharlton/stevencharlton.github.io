@@ -1,0 +1,208 @@
+<!doctype HTML>
+<html>
+    <head>
+        <title>German verb mit prepositionen</title>
+        <link rel="stylesheet" type="text/css" href="style.css"/>
+        <style type="text/css">
+          input {
+          width: 150px;
+          } 
+        </style>
+        <script type="text/javascript" src="jquery.js"></script>
+        <script type="text/javascript" src="jquery.color.js"></script>
+     
+       <script type="text/javascript">
+     
+          var verbs = [
+            ["Verb", "options"],
+            ["anrufen", "bei + dat"],
+            ["achten", "auf + akk"],
+            ["anfangen", "mit + dat"],
+            ["arbeiten", "bei + dat"],
+            ["aufhören", "mit + dat"],
+            ["befreundet sein", "mit + dat"],
+            ["beginnen", "mit + dat"],
+            ["berichten", "über + akk"],
+            ["beschäftigt sein", "mit + dat"],
+            ["danken", "für + akk", "an + akk"],
+            ["einverstanden sein", "mit + dat"],
+            ["erzählen", "von + dat"],
+            ["fertig sein", "mit + dat"],
+            ["fragen", "nach + dat"],
+            ["gehören", "zu + dat"],
+            ["es geht", "um + akk"],
+            ["gratulieren", "zu + dat"],
+            ["handlen", "mit + dat"],
+            ["leben", "von + dat"],
+            ["mitfahren" , "mit + dat"],
+            ["rechnen", "mit + dat"],
+            ["reden", "mit + dat", "über + akk"],
+            ["schimpfen", "mit + dat"],
+            ["sich ärgern", "über + akk"],
+            ["sich austauschen", "mit + dat"],
+            ["sich bedanken", "bei + dat", "für + akk"],
+            ["sich beeilen", "mit + dat"],
+            ["sich beschäftigen", "mit + dat"],
+            ["sich beschweren", "über + akk"],
+            ["sich bewerben", "um + akk"],
+            ["sich einigen", "mit + dat"],
+            ["sich entschuldigen", "bei + dat", "für + akk"],
+            ["sich erinnern", "an + akk"],
+            ["sich erkundigen", "nach + dat"],
+            ["sich freuen", "auf + akk", "über + akk"],
+            ["sich fürchten", "vor + dat"],
+            ["sich interessieren", "für + akk"],
+            ["sich streiten", "mit + dat", "über + akk"],
+            ["sich treffen", "mit + dat"],
+            ["sich unterhalten", "mit + dat", "über + akk"],
+            ["sich verabreden", "mit + dat"],
+            ["sich verstehen", "mit + dat"],
+            ["sich vertragen", "mit + dat"],
+            ["sinken", "um + akk"],
+            ["spielen", "mit + dat"],
+            ["steigen", "um + akk"],
+            ["sprechen", "mit + dat", "über + akk"],
+            ["suchen", "nach + dat"],
+            ["telefonieren", "mit + dat"],
+            ["träumen", "von + dat"],
+            ["übereinsteimmen", "mit + dat"],
+            ["umgehen", "mit + dat"],
+            ["unzufrieden sein", "mit + dat"],
+            ["verbinden", "mit + dat"],
+            ["verheiratet sein", "mit + dat"],
+            ["verzichten", "auf + akk"],
+            ["warten", "auf + akk"],
+            ["zählen", "zu + dat"],
+            ["zufrieden sein", "mit + dat"],
+            ["zufrieden", "mit + dat"],
+            ["zurechtkommen", "mit + dat"]
+          ];
+          
+          var pos = 0;
+          var attempt = 0;
+          var rem = 0;
+          var cnt = 0;
+
+          function toggleType() {
+            doType = $("input[name=\"type\"]:checked").val();
+            newQn();
+          }
+
+            function memberQ(element, list) {
+                for (var i = 0; i < list.length; i++) {
+                if(element == list[i])
+                    return true;
+                }
+                return false;
+            }
+
+            function position(element, list) {
+                for (var i = 0; i < list.length; i++) {
+                if(element == list[i])
+                    return i;
+                }
+                return -1;
+            }
+
+          function newQn() {
+            pos = 1 + Math.floor(Math.random()*(verbs.length-1));
+            rem = verbs[pos].slice(1);
+            cnt = 0;
+            ttl = rem.length;
+            $("#goal").html(verbs[pos][0]);
+            $("#count").html(cnt + "/" + ttl);
+            $("input[type=\"text\"]").val("");
+            
+
+            $("#ans1").focus();
+            $("#ans1").attr("placeholder", "");
+            
+            attempt = 0;
+          }
+
+          function checkAnswer(event) {
+            if(memberQ($("#ans1").val(), rem)) {
+                $("#ans1").animate({
+                        backgroundColor: "#00ff00"
+                    }, 100 ).animate({
+                        backgroundColor: "#fffff"
+                    }, 100 )
+   
+                    rem.splice(position($("#ans1").val(), rem), 1);
+                    $("#ans1").val("");
+                    $("#ans1").focus();
+                    cnt++;
+                    $("#count").html(cnt + "/" + ttl);
+                    if(rem.length == 0) {
+                        newQn();
+                    }
+            } else {
+                $("#ans1").animate({
+                        backgroundColor: "#ff0000"
+                    }, 100 ).animate({
+                        backgroundColor: "#fffff"
+                    }, 100 ).focus();
+
+                    attempt++;
+
+                    if(attempt > 2) {
+                        $("#ans1").attr("placeholder", rem[0]);
+                    }
+            }
+            
+            event.preventDefault();
+            return false;
+          }
+
+          $(document).ready(
+                function() {
+                    $("#game").submit(checkAnswer);
+                    newQn();
+            }
+            );
+
+        </script>
+        <style type="text/css">
+        
+        input[type="text"] {
+          height: 26px;
+            width: 250px;
+            border-radius: 3px;
+            -moz-border-radius: 3px;
+            color: #333;
+            padding: 15px 10px 15px 10px;
+            display: block;
+            box-sizing: border-box; /* css3 rec */
+            -moz-box-sizing: border-box; /* ff2 */
+            -ms-box-sizing: border-box; /* ie8 */
+            -webkit-box-sizing: border-box; /* safari3 */
+        }
+
+        </style>
+    </head>
+
+    <body>
+        <h1>Verb mit Prepositionen</h1>
+        <form id="game" onsubmit="javascript: return false;" autocomplete="off">
+          <table>
+            <tr>
+            </tr>
+            <tr>
+                <tr colspan="2">
+                  <td id="goal">$label</td>
+                </tr>
+                <tr colspan="2">
+                    <td id="count">$count</td>
+                </tr>
+                <tr>
+                  <td id="lab1">Preposition</td><td><input id="ans1" type="text"/></td>
+                </tr>
+          <tr>
+            <td colspan="2">
+              <input type="submit" value="Check"/>
+            </td>
+          </tr>
+        </table>
+        </form>
+    </body>
+</html>

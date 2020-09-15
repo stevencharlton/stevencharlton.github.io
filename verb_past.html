@@ -1,0 +1,193 @@
+<!doctype HTML>
+<html>
+    <head>
+        <title>German verb past tense</title>
+        <link rel="stylesheet" type="text/css" href="style.css"/>
+        <style type="text/css">
+          input {
+          width: 150px;
+          } 
+        </style>
+        <script type="text/javascript" src="jquery.js"></script>
+        <script type="text/javascript" src="jquery.color.js"></script>
+     
+       <script type="text/javascript">
+     
+          var verbs = [
+            ["Infinitive", "Präteritum", "Perfekt"],
+            ["bleiben", "blieb", ""],
+            ["fallen", "fiel", ""],
+            ["einfallen", "fiel ein", ""],
+            ["gefallen", "gefiel", ""],
+            ["halten", "hielt", ""],
+            ["erhalten", "erhielt", ""],
+            ["heißen", "hies", ""],
+            ["laufen", "lief", ""],
+            ["rufen", "rief", ""],
+            ["scheinen", "schien", ""],
+            ["schlafen", "schlief", ""],
+            ["schreiben", "schrieb", ""],
+            ["anfangen", "fing an", ""],
+            ["leiden", "litt", ""],
+            ["schneiden", "schnitt", ""],
+            ["streiten", "stritt", ""],
+            ["bitten", "batt", ""],
+            ["essen", "aß", ""],
+            ["finden", "fand", ""],
+            ["geben", "gab", ""],
+            ["gelingen", "gelag", ""],
+            ["helfen", "seschah", ""],
+            ["kommen", "kamm", ""],
+            ["bekommen", "bekamm", ""],
+            ["lesen", "las", ""],
+            ["nehmen", "nahm", ""],
+            ["mitnehmen", "nahm mit", ""],
+            ["unternehmen", "unternahm", ""],
+            ["sehen", "sah", ""],
+            ["sitzen", "saß", ""],
+            ["sprechen", "sprach", ""],
+            ["besprechen", "besprach", ""],
+            ["versprechen", "verspach", ""],
+            ["sterben", "starb", ""],
+            ["treffen", "traff", ""],
+            ["treten", "trat", ""],
+            ["betreten", "betrat", ""],
+            ["austreten", "trat aus", ""],
+            ["trinken", "trank", ""],
+            ["vergessen", "vergaß", ""],
+            ["fliegen", "flog", ""],
+            ["frieren", "fror", ""],
+            ["heben", "hob", ""],
+            ["lügen", "log", ""],
+            ["schließen", "schloss", ""],
+            ["abschließen", "schloss ab", ""],
+            ["verbieten", "verbot", ""],
+            ["verlieren", "verlor", ""],
+            ["ziehen", "zog", ""],
+            ["umziehen", "zog um", ""],
+            ["anzihen", "zog an", ""],
+            ["einziehen", "einzog", ""],
+            ["fahren", "fuhr", ""],
+            ["erfahren", "erfuhr", ""],
+            ["tragen", "trug", ""],
+            ["wachsen", "wuchs", ""],
+            ["werden", "wurde", ""],
+            ["bringen", "brachte", ""],
+            ["mitbringen", "bracht mit", ""],
+            ["denken", "dachte", ""],
+            ["gehen", "ging", ""],
+            ["haben", "hatte", ""],
+            ["kennen", "kannte", ""],
+            ["erkenen", "erkannte", ""],
+            ["sein", "war", ""],
+            ["stehen", "stand", ""],
+            ["bestehen", "bestand", ""],
+            ["verstehen", "verstand", ""],
+            ["tun", "tat", ""],
+            ["wissen", "wusste", ""]
+          ];
+          
+          var pos = 0;
+          var attempt = 0;
+          var doType = 0;
+
+          function toggleType() {
+            doType = $("input[name=\"type\"]:checked").val();
+            newQn();
+          }
+
+          function newQn() {
+            pos = 1 + Math.floor(Math.random()*(verbs.length-1));
+            
+            $("#goal").html(verbs[pos][0]);
+            $("input[type=\"text\"]").val("");
+            
+            $("#ans1").focus();
+            $("#ans1").attr("placeholder", "");
+            
+            attempt = 0;
+          }
+
+          function checkAnswer(event) {
+            if($("#ans1").val() == verbs[pos][doType]) {
+                $("#ans1").animate({
+                        backgroundColor: "#00ff00"
+                    }, 100 ).animate({
+                        backgroundColor: "#fffff"
+                    }, 100 )
+   
+                    newQn();
+            } else {
+                $("#ans1").animate({
+                        backgroundColor: "#ff0000"
+                    }, 100 ).animate({
+                        backgroundColor: "#fffff"
+                    }, 100 ).focus();
+
+                    attempt++;
+
+                    if(attempt > 2) {
+                        $("#ans1").attr("placeholder", verbs[pos][doType]);
+                    }
+            }
+            
+            event.preventDefault();
+            return false;
+          }
+
+          $(document).ready(
+                function() {
+                    doType = $("input[name=\"type\"]:checked").val();
+                    $("#game").submit(checkAnswer);
+                    newQn();
+            }
+            );
+
+        </script>
+        <style type="text/css">
+        
+        input[type="text"] {
+          height: 26px;
+            width: 250px;
+            border-radius: 3px;
+            -moz-border-radius: 3px;
+            color: #333;
+            padding: 15px 10px 15px 10px;
+            display: block;
+            box-sizing: border-box; /* css3 rec */
+            -moz-box-sizing: border-box; /* ff2 */
+            -ms-box-sizing: border-box; /* ie8 */
+            -webkit-box-sizing: border-box; /* safari3 */
+        }
+
+        </style>
+    </head>
+
+    <body>
+        <h1>Verb past</h1>
+        <form id="game" onsubmit="javascript: return false;" autocomplete="off">
+          <table>
+            <tr>
+                <td colspan="2" align="left">
+                    <input style="width: 20px;" name="type" id="präteritum" value="1" type="radio" checked onchange="javascript: toggleType();"/>
+                    <label for="präteritum">Präteritum</label>
+                    <input style="width: 20px;" name="type" id="perfekt" value="2" type="radio" onchange="javascript: toggleType();"/>
+                    <label for="perfekt">Perfekt</label>
+              </td>
+            </tr>
+            <tr>
+                <tr>
+                  <td id="goal" colspan="2">$label</td>
+                </tr>
+                <tr>
+                  <td id="lab1">Er</td><td><input id="ans1" type="text"/></td>
+                </tr>
+          <tr>
+            <td colspan="2">
+              <input type="submit" value="Check"/>
+            </td>
+          </tr>
+        </table>
+        </form>
+    </body>
+</html>

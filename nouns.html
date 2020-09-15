@@ -1,0 +1,111 @@
+<!doctype HTML>
+<html>
+    <head>
+        <title>German nouns</title>
+        <link rel="stylesheet" type="text/css" href="style.css"/>
+        <script type="text/javascript" src="jquery.js"></script>
+        <script type="text/javascript" src="jquery.color.js"></script>
+        <script type="text/javascript">
+            
+            nouns = [
+            {"german": "Tisch","gender": "m","english": "table"},
+            {"german": "Stuhl","gender": "m","english": "chair"},
+            {"german": "Tee","gender": "m","english": "tea"},
+            {"german": "Stift","gender": "m","english": "pen"},
+            {"german": "Boden","gender": "m","english": "floor"},
+            
+            {"german": "Uhr","gender": "f","english": "clock"},
+            {"german": "Tasse","gender": "f","english": "cup"},
+            {"german": "Tür","gender": "f","english": "door"},
+            {"german": "Wand","gender": "f","english": "wall"},
+            {"german": "Kirche","gender": "f","english": "church"},
+            {"german": "Tafel","gender": "f","english": "board"},
+            {"german": "Decke","gender": "f","english": "ceiling"},
+            {"german": "Lampe","gender": "f","english": "lamp"},
+            
+            {"german": "Handy","gender": "n","english": "mobile phone"},
+            {"german": "Buch","gender": "n","english": "book"},
+            {"german": "Fenster","gender": "n","english": "window"},
+
+            {"german": "Telefon","gender": "n","english": "telephone"},
+             {"german": "Regal","gender": "n","english": "case/rack"},
+             {"german": "Drucker","gender": "m","english": "printer"},
+             {"german": "Schreibtisch","gender": "m","english": "writing desk"},
+             {"german": "Computer","gender": "m","english": "computer"},
+             {"german": "Maus","gender": "f","english": "mouse"},
+             {"german": "Wörterbuch","gender": "n","english": "dictionary"},
+             {"german": "Brille","gender": "f","english": "eyeglasses"},
+             {"german": "Terminkalender","gender": "f","english": "appointment calendar"},
+             {"german": "Bleistift","gender": "m","english": "pencil"},
+             {"german": "Kaffeemaschine","gender": "f","english": "coffee machine"},
+             {"german": "Kugelschreiber","gender": "m","english": "ballpoint pen"},
+             //{"german": "","gender": "","english": ""},
+            ];
+
+            function newQn() {
+                pos = Math.floor(Math.random()*nouns.length);
+                $("#pos").val(pos);
+                $("#question").val(
+                         nouns[pos].german
+                );
+                $("#answer").val("");
+            };
+
+            function checkAnswer(event) {
+                pos = $("#pos").val();
+                answer = $("#answer").val();
+
+
+                correct = false;
+                if(nouns[pos].gender == "m" && answer == "der " + nouns[pos].german) correct = true;
+                if(nouns[pos].gender == "n" && answer == "das " + nouns[pos].german) correct = true;
+                if(nouns[pos].gender == "f" && answer == "die " + nouns[pos].german) correct = true;
+
+                if(correct) {
+                    $("#answer").animate({
+                        backgroundColor: "#00ff00"
+                    }, 100 ).animate({
+                        backgroundColor: "#fffff"
+                    }, 100 )
+   
+                    newQn();
+                } else {
+                    $("#answer").animate({
+                        backgroundColor: "#ff0000"
+                    }, 100 )
+                    .animate({
+                        backgroundColor: "#fffff"
+                    }, 100 )
+
+                    $("#answer").select();
+                }
+            
+                event.preventDefault();
+                return false;
+            }
+
+            $(document).ready(
+                function() {
+                    $("#game").submit(checkAnswer);
+                    newQn();
+            }
+            );
+
+
+
+        </script>
+    </head>
+
+    <body>
+        <h1>German nouns</h1>
+        <form id="game" action="javascript: return false;">
+            <input id="pos" type="hidden" value=""/>
+            <div>German: <input id="question" type="text" value=""/>
+            </div>
+            <div>
+                Gender: <input id="answer" type="text" vaule=""/>
+            </div>
+            <input type="submit"/>
+        </form>
+    </body>
+</html>

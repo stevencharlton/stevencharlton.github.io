@@ -1,0 +1,183 @@
+<!doctype HTML>
+<html>
+    <head>
+        <title>German pronouns</title>
+        <link rel="stylesheet" type="text/css" href="style.css"/>
+        <style type="text/css">
+          input {
+          width: 150px;
+          } 
+        </style>
+        <script type="text/javascript" src="jquery.js"></script>
+        <script type="text/javascript" src="jquery.color.js"></script>
+     
+       <script type="text/javascript">
+     
+          var pronouns = [
+            ["Person", "Nom", "Akk", "Dat", "Gen", "Ref-akk", "Ref-Dat", "Pos"],
+            ["I", "ich", "mich", "mir", "meiner", "mich", "mir", "mein"],
+            ["you (sgl)", "du", "dich", "dir", "deiner", "dich", "dir", "dein"],
+            ["he", "er", "ihn", "ihm", "seiner", "sich", "sich", "sein"],
+            ["she", "sie", "sie", "ihr", "ihrer", "sich", "sich", "ihr"],
+            ["it", "es", "es", "ihm", "seiner", "sich", "sich", "sein"],
+            ["we", "wir", "uns", "uns", "unserer", "uns", "uns", "unser"],
+            ["you (pl)", "ihr", "euch", "euch", "euerer", "euch", "euch", "euer"],
+            ["they", "sie", "sie", "ihnen", "ihrer", "sich", "sich", "ihr"],
+            ["You (fm)", "Sie", "Sie", "Ihnen", "Ihrer", "sich", "sich", "Ihr"]
+          ];
+          
+          var pos = 0;
+          var rp = 0;
+          var attempt = [0,0,0,0,0,0,0,0];
+
+          function randomPerm(sort) {
+              // first make a copy of the original sort array
+              var rsort = new Array(sort.length);
+              for(var idx = 0; idx < sort.length; idx++)
+              {
+                  rsort[idx] = sort[idx];
+              }
+
+              // then proceed to shuffle the rsort array      
+              for(var idx = 0; idx < rsort.length; idx++)
+              {
+                  var swpIdx = idx + Math.floor(Math.random() * (rsort.length - idx));
+                  // now swap elements at idx and swpIdx
+                  var tmp = rsort[idx];
+                  rsort[idx] = rsort[swpIdx];
+                  rsort[swpIdx] = tmp;
+              }
+
+              return rsort;
+          }
+
+          function toggleRandom() {
+            doRandom = $("#random").is(":checked");
+            newQn();
+          }
+
+          function newQn() {
+            pos = 1 + Math.floor(Math.random()*(pronouns.length-1));
+            attempt = [0,0,0,0,0,0,0,0];
+
+            $("#goal").html(pronouns[pos][0]);
+            $("input[type=\"text\"]").val("");
+            if(doRandom) {
+            rp  = randomPerm([1,2,3,4,5,6,7]);
+            } else {
+              rp = [1,2,3,4,5,6,7];
+            }
+            
+            for(i = 1; i <= 7; i++) {
+              $("#lab"+i).html(pronouns[0][rp[i-1]])
+              $("#ans"+i).attr("placeholder", pronouns[0][rp[i-1]]);
+            }
+
+            $("#ans1").focus();
+          }
+
+          function checkAnswer() {
+            wrong = 0;
+            for( i = 1; i <= 7; i++) {
+               if($("#ans"+i).val() == pronouns[pos][rp[i-1]]) {
+
+                $("#ans"+i).animate({
+                        backgroundColor: "#00ff00"
+                    }, 100 ).animate({
+                        backgroundColor: "#fffff"
+                    }, 100 )
+
+               } else {
+                if(wrong == 0) {
+                  $("#ans"+i).focus();
+               }
+                wrong++;
+
+
+                attempt[i]++;
+                  if(attempt[i]>1) {
+                      $("#ans"+i).attr("placeholder", pronouns[pos][rp[i-1]]);
+                  }
+
+                $("#ans"+i).animate({
+                        backgroundColor: "#ff0000"
+                    }, 100 ).animate({
+                        backgroundColor: "#fffff"
+                    }, 100 )
+
+               }
+            }
+
+            if(wrong == 0) {
+              newQn();
+            }
+
+            return false;
+          }
+
+          $(document).ready(
+                function() {
+                    doRandom = $("#random").is(":checked");
+                    $("#game").submit(checkAnswer);
+                    newQn();
+            }
+            );
+
+        </script>
+        <style type="text/css">
+        
+        input[type="text"] {
+          height: 26px;
+            width: 250px;
+            border-radius: 3px;
+            -moz-border-radius: 3px;
+            color: #333;
+            padding: 15px 10px 15px 10px;
+            display: block;
+            box-sizing: border-box; /* css3 rec */
+            -moz-box-sizing: border-box; /* ff2 */
+            -ms-box-sizing: border-box; /* ie8 */
+            -webkit-box-sizing: border-box; /* safari3 */
+        }
+
+        </style>
+    </head>
+
+    <body>
+        <h1>Pronouns</h1>
+        <form id="game" onsubmit="javascript: return false;" autocomplete="off">
+          <table>
+            <tr>
+              <td colspan="2" align="left">
+              <input style="width: 20px;" id="random" onclick="javascript: toggleRandom();" type="checkbox" checked="false"/>
+              <label for="random">Random</label>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+              <p id="goal">$label</p></td>
+            </tr>
+          <tr>
+            <td id="lab1">$label</td><td><input id="ans1" type="text"/></td>
+          </tr><tr>
+            <td id="lab2">$label</td><td><input id="ans2" type="text"/></td>
+          </tr><tr>
+            <td id="lab3">$label</td><td><input id="ans3" type="text"/></td>
+          </tr><tr>
+            <td id="lab4">$label</td><td><input id="ans4" type="text"/></td>
+          </tr><tr>
+            <td id="lab5">$label</td><td><input id="ans5" type="text"/></td>
+          </tr><tr>
+            <td id="lab6">$label</td><td><input id="ans6" type="text"/></td>
+          </tr><tr>
+            <td id="lab7">$label</td><td><input id="ans7" type="text"/></td>
+          </tr>
+          <tr>
+            <td colspan="2">
+              <input type="submit" value="Check"/>
+            </td>
+          </tr>
+        </table>
+        </form>
+    </body>
+</html>
