@@ -57,9 +57,9 @@
 
 
                 correct = false;
-                if(nouns[pos].gender == "m" && answer == "der " + nouns[pos].german) correct = true;
-                if(nouns[pos].gender == "n" && answer == "das " + nouns[pos].german) correct = true;
-                if(nouns[pos].gender == "f" && answer == "die " + nouns[pos].german) correct = true;
+                if(nouns[pos].gender == "m" && answer.toLowerCase() == "der " + nouns[pos].german.toLowerCase()) correct = true;
+                if(nouns[pos].gender == "n" && answer.toLowerCase() == "das " + nouns[pos].german.toLowerCase()) correct = true;
+                if(nouns[pos].gender == "f" && answer.toLowerCase() == "die " + nouns[pos].german.toLowerCase()) correct = true;
 
                 if(correct) {
                     $("#answer").animate({
